@@ -10,6 +10,7 @@ import java.util.Random;
 import object.OBJ_Boots;
 import object.OBJ_Coin;
 import object.OBJ_Key;
+import object.OBJ_Potion_Red;
 import object.OBJ_Rock;
 
 /**
@@ -72,10 +73,8 @@ public class MON_GreenSlime extends Entity{
                 direction = "right";
             }
             actionLockCounter = 0;
-            
-            
-            
         }
+        
         int i = new Random().nextInt(100)+1;
         if(i > 99 && projectile.alive == false && shotAvailableCounter == 30){
             projectile.set(worldX, worldY, direction, true, this);
@@ -93,8 +92,27 @@ public class MON_GreenSlime extends Entity{
         if(i >= 50 && i < 55){
             dropItem(new OBJ_Boots(gp));
         }
-        if(gp.monster == null){
-            dropItem(new OBJ_Key(gp));
+        if(i >= 55 && i< 70){
+            dropItem(new OBJ_Potion_Red(gp));
+        }
+        
+        checkStageCompletion();
+    }
+    public void checkStageCompletion() {
+        boolean allMonstersDefeated = true;
+
+        // Check all monsters in the current stage
+        for (Entity monster : gp.monster) {
+            if (monster != null && monster.life > 0 && monster.name.equals("Green Slime")) {
+                allMonstersDefeated = false;
+                break;
+            }
+        }
+
+        // If all monsters are defeated, drop a key
+        if (allMonstersDefeated) {
+            dropItem(new OBJ_Key(gp));  
+            gp.ui.addMessage("A Key has dropped!");  
         }
     }
     

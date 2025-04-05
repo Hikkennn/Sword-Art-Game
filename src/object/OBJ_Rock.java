@@ -18,14 +18,14 @@ public class OBJ_Rock extends Projectile{
         super(gp);
         this.gp = gp;
         
-        name = "Fireball";
-        speed = 7;
+        name = "Rock";
+        speed = 8;
         maxLife = 80;
         life = maxLife;
         attack = 4;
         useCost = 1;
         alive = false;
-        cooldown = 300;
+        
         getImage();
     }
     

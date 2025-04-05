@@ -33,7 +33,7 @@ public class Player extends Entity{
     KeyHandler keyH;
     public final int screenX;
     public final int screenY;
-//    public int hasKey = 0;
+    public int hasKey = 0;
     int standCOunter =0;
     int counterCooldown;
     boolean moving = false;
@@ -97,8 +97,7 @@ public class Player extends Entity{
     public void setItems(){
         inventory.add(currentWeapon);
         inventory.add(currentShield);
-        inventory.add(new OBJ_Key(gp));
-        inventory.add(new OBJ_Key(gp));
+        
     }
     public int getAttack(){
         attackArea = currentWeapon.attackArea;
@@ -286,16 +285,21 @@ public class Player extends Entity{
         Random rand = new Random();
         
         if(i != 999){
+            String objectName = gp.obj[i].name;
             
             //pickup only items
             if(gp.obj[i].type == type_pickupOnly){
                 gp.obj[i].use(this);
                 gp.obj[i] = null;
             }
-            else{
+            else if(gp.obj[i].type != type_doorOnly){
                 //Inventory Items
+                
                 String text;
                 if(inventory.size()!= maxInventorySize){
+                    if(objectName.equals("Key")){
+                        hasKey++;
+                    }
                     inventory.add(gp.obj[i]);
                     gp.playSE(i);
                     text = "Got a " + gp.obj[i].name + "!";
@@ -328,16 +332,19 @@ public class Player extends Entity{
     public void contactMonster(int i){
         if(i != 999){
             if(invincible == false && gp.monster[i].dying == false){
-                    gp.playSE(6);
-                    
-                    int damage = gp.monster[i].attack - defense;
-                    if(damage == 0){
-                        damage = 0;
-                    }
-                    life -= damage;
-                    invincible = true;
-                    counterRegen = 0;
+                gp.playSE(6);
+
+                int damage = gp.monster[i].attack - defense;
+                if(damage == 0){
+                    damage = 0;
                 }
+                life -= damage;
+                invincible = true;
+                counterRegen = 0;
+            }
+            if(gp.monster[i] == null){
+                dropItem(new OBJ_Key(gp));
+            }
         }
     }
     
@@ -362,6 +369,7 @@ public class Player extends Entity{
                     checkLevelUp();
                 }
             }
+            
          }
     }
     public void checkLevelUp(){
@@ -461,7 +469,7 @@ public class Player extends Entity{
         g2.drawImage(image, tempScreenX, tempScreenY, null);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1f));
         g2.setColor(Color.red);
-        g2.drawRect(screenX + solidArea.x, screenY + solidArea.y, solidArea.width, solidArea.height);
+        
         
         setScreenForChar(g2, tempScreenX, tempScreenY);
         

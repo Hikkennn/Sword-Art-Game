@@ -197,6 +197,7 @@ public class CollisionChecker {
                         if(entity.solidArea.intersects(gp.player.solidArea)){
                             
                                 entity.collisionOn = true;
+                                contactPlayer = true;
                         }
                         break;
                     
@@ -204,7 +205,7 @@ public class CollisionChecker {
                         entity.solidArea.y += entity.speed;
                         if(entity.solidArea.intersects(gp.player.solidArea)){
                                 entity.collisionOn = true;
-
+                                contactPlayer = true;
                         }
                         break;
                         
@@ -212,7 +213,7 @@ public class CollisionChecker {
                         entity.solidArea.x -= entity.speed;
                         if(entity.solidArea.intersects(gp.player.solidArea)){
                                 entity.collisionOn = true;
-
+                                contactPlayer = true;
                         }
                         break;
                         

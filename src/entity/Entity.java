@@ -94,6 +94,7 @@ public class Entity {
     public final int type_shield = 5;
     public final int type_consumable = 6;
     public final int type_pickupOnly = 7;
+    public final int type_doorOnly = 8;
     
     
     public Entity(GamePanel gp){
@@ -189,6 +190,7 @@ public class Entity {
     }
     
     public void damagePlayer(int attack){
+        
         if(gp.player.invincible == false){
                 gp.playSE(6);
                 
@@ -201,6 +203,7 @@ public class Entity {
                 gp.player.invincible = true;
             }
     }
+    
     public void draw(Graphics2D g2){
         BufferedImage  image = null;
         int screenX = worldX - gp.player.worldX + gp.player.screenX;

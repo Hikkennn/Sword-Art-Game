@@ -47,7 +47,10 @@ public class GamePanel extends JPanel implements Runnable{
 //    public final int countDownState = 4;
     public final int dialogueState = 3;
     public final int characterState = 4;
+    public final int optionsState =5;
+    public final int gameOverState= 6;
     public int countDown = 3;
+    
     
     // FPS
     int FPS = 60;
@@ -61,12 +64,13 @@ public class GamePanel extends JPanel implements Runnable{
     public AssetSetter aSetter = new AssetSetter(this);
     public UI ui = new UI(this);
     Thread gameThread;
+    public boolean fullScreenOn = false;
     
     //Entity and Object
     public Player player = new Player(this, keyH);
     public Entity obj[] = new Entity[20];
     public Entity npc[] = new Entity[10];
-    public Entity monster[] = new Entity[20];
+    public Entity monster[] = new Entity[100];
     ArrayList<Entity> entityList = new ArrayList<>();
     public ArrayList<Entity> projectileList = new ArrayList<>();
     
@@ -88,6 +92,17 @@ public class GamePanel extends JPanel implements Runnable{
         aSetter.setMonster();
         playMusic(0);
         gameState = titleState;
+    }
+    public void restart(){
+        player.setDefaultValues();
+        player.setDefaultPostions();
+        player.restorLifeAndMana();
+        player.setItems();
+        aSetter.setObject();
+        aSetter.setNPC();
+        aSetter.setMonster();
+       
+        
     }
     
     public void startGameThread(){
@@ -238,6 +253,8 @@ public class GamePanel extends JPanel implements Runnable{
             g2.dispose();
             }
     }
+    
+   
     
     public void playMusic(int i){
         music.setFile(i);

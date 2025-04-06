@@ -157,6 +157,7 @@ public class Entity {
         if(this.type == type_monster && contactPlayer == true){
             damagePlayer(attack);
         }
+        
         if(collisionOn == false){
                 switch(direction){
                     case "up": worldY -= speed; break;

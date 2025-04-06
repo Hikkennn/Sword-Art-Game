@@ -68,7 +68,7 @@ public class Player extends Entity{
         setItems();
     }
     
-    private void setDefaultValues(){
+    public void setDefaultValues(){
         worldX = gp.tileSize * 1;
         worldY = gp.tileSize * 8;
         direction = "down";
@@ -81,7 +81,7 @@ public class Player extends Entity{
         maxMana = 50;
         counterRegen = 0;
         speed = 4;
-        strength = 1;
+        strength = 10;
         dexterity = 1;
         exp = 0;
         nextLevelExp = 5;
@@ -94,7 +94,21 @@ public class Player extends Entity{
         defense = getDefense();
     }
     
+    public void setDefaultPostions(){
+        worldX = gp.tileSize * 1;
+        worldY = gp.tileSize * 8;
+        direction = "down";
+        speed = 4;
+    }
+    public void restorLifeAndMana(){
+        life = maxLife;
+        mana = maxMana;
+        invincible = false;
+    }
+    
+    
     public void setItems(){
+        inventory.clear();
         inventory.add(currentWeapon);
         inventory.add(currentShield);
         
@@ -233,6 +247,10 @@ public class Player extends Entity{
         
         hpRegeneration();
         manaRegeneration();
+        
+        if(life <= 0){
+            gp.gameState = gp.gameOverState;
+        }
     }
     
     
@@ -287,10 +305,22 @@ public class Player extends Entity{
         if(i != 999){
             String objectName = gp.obj[i].name;
             
+            if(objectName.equals("Door")){
+                if(hasKey> 0){
+                    gp.obj[i] = null;
+                    hasKey--;
+                    if(objectName.equals("Key")){
+                        gp.obj[i] = null;
+                        
+                    }
+                }
+                return;
+            }
             //pickup only items
             if(gp.obj[i].type == type_pickupOnly){
                 gp.obj[i].use(this);
                 gp.obj[i] = null;
+                return;
             }
             else if(gp.obj[i].type != type_doorOnly){
                 //Inventory Items

@@ -26,7 +26,7 @@ public class Main {
         window.add(gamePanel);
         
         window.pack();
-        
+        System.out.println("Hello World!");
         window.setLocationRelativeTo(null);
         window.setVisible(true);
         
